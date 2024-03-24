@@ -19,6 +19,7 @@ import { RxjsExampleModule } from '../dashboard/pages/rxjs-example/rxjs-example.
 import { RxjsIntroduccionModule } from '../dashboard/pages/rxjs-introduccion/rxjs-introduccion.module';
 import { UsersModule } from '../dashboard/pages/users/users.module';
 import { AlumnosComponent } from './pages/alumnos/alumnos.component';
+import { AlumnoModule } from './pages/alumnos/alumnos.module';
 import { CursosComponent } from './pages/cursos/cursos.component';
 import { UserDetailComponent } from './pages/users/pages/user-detail/user-detail.component';
 import { UsersComponent } from './pages/users/users.component';
@@ -42,6 +43,7 @@ import { UsersComponent } from './pages/users/users.component';
     MatCardModule,
     MatDatepickerModule,
     FormsModule,
+    AlumnoModule,
      RouterModule.forChild([
       {
         path: 'home',

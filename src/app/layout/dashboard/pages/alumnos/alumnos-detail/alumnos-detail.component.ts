@@ -21,25 +21,25 @@ export class AlumnosDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getAlumno();
   }
-  getAlumno(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam !== null) {
-      const id = +idParam;
-      this.alumnosService['getAlumno'](id)
-        .subscribe((alumno: Alumno | undefined) => this.alumno = alumno);
-    } else {
-      console.error('ID parameter is null');
-    }
+ getAlumno(): void {
+  const idParam = this.route.snapshot.paramMap.get('id');
+  if (idParam !== null) {
+    const id = +idParam;
+    this.alumnosService
+      .getAlumnosById(id)
+      .subscribe((alumno: Alumno | undefined) => this.alumno = alumno);
+  } else {
+    console.error('ID parameter is null');
   }
-  
+}
 
-  goBack(): void {
+      goBack(): void {
     this.location.back();
   }
 
   save(): void {
     if (this.alumno) {
-      this.alumnosService['updateAlumno'](this.alumno)
+      this.alumnosService.getAlumnos()
         .subscribe(() => this.goBack());
     }
   }

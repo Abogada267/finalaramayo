@@ -1,12 +1,11 @@
 <div class="mb-3">
-  <app-alumnos-form (alumnoSubmitted)="onalumnoSubmitted($event)"></app-alumnos-form>
+  <!-- Eliminando la línea problemática -->
+  <!-- <app-alumnos-form (alumnoSubmitted)="['onAlumnoSubmitted']($event)"></app-alumnos-form> -->
 </div>
 
 <pre>{{ roles | json }}</pre>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
- 
-
   <!-- ID Column -->
   <ng-container matColumnDef="id">
     <!-- HEADER -->
@@ -15,7 +14,7 @@
     <td mat-cell *matCellDef="let alumno">{{ alumno.id }}</td>
   </ng-container>
 
-  <!-- fullName Column -->
+  <!-- FullName Column -->
   <ng-container matColumnDef="fullName">
     <!-- HEADER -->
     <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
@@ -25,7 +24,17 @@
     </td>
   </ng-container>
 
-  <!-- email Column -->
+  <!-- LastName Column -->
+  <ng-container matColumnDef="lastName">
+    <!-- HEADER -->
+    <th mat-header-cell *matHeaderCellDef>Apellido</th>
+    <!-- CELDA -->
+    <td mat-cell *matCellDef="let alumno">
+      {{ alumno.lastName }}
+    </td>
+  </ng-container>
+
+  <!-- Email Column -->
   <ng-container matColumnDef="email">
     <!-- HEADER -->
     <th mat-header-cell *matHeaderCellDef>Correo</th>
@@ -35,20 +44,20 @@
     </td>
   </ng-container>
 
-  <!-- role Column -->
-  <ng-container matColumnDef="role">
+  <!-- Password Column -->
+  <ng-container matColumnDef="password">
     <!-- HEADER -->
-    <th mat-header-cell *matHeaderCellDef>Rol</th>
+    <th mat-header-cell *matHeaderCellDef>Contraseña</th>
     <!-- CELDA -->
     <td mat-cell *matCellDef="let alumno">
-      {{ alumno.role }}
+      {{ alumno.password }}
     </td>
   </ng-container>
 
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
+  <!-- Role Column -->
+  <ng-container matColumnDef="role">
     <!-- HEADER -->
-    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+    <th mat-header-cell *matHeaderCellDef>Rol</th>
     <!-- CELDA -->
     <td mat-cell *matCellDef="let alumno">
       <button [routerLink]="alumno.id" color="accent" mat-icon-button>
@@ -60,7 +69,6 @@
     </td>
   </ng-container>
 
- 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
@@ -68,5 +76,3 @@
 <mat-paginator (page)="onPage($event)" [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page">
 </mat-paginator>
-
-

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { AlumnosService } from '../../../../core/services/alumnos.service';
 import { Alumno } from './models/index';
 
 @Component({
@@ -7,40 +8,45 @@ import { Alumno } from './models/index';
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.scss']
 })
-export class AlumnosComponent  {
-roles: any;
-onalumnoSubmitted: any;
-alumno: any;
-onDeleteUser(_t58: any) {
-throw new Error('Method not implemented.');
-}
-totalItems: unknown;
-pageSize: unknown;
-onPage($event: PageEvent) {
-throw new Error('Method not implemented.');
-}
-  displayedColumns: string[] = ['id', 'fullName','lastname', 'email', 'password','role'];
-  dataSource: Alumno[] = [
-    {
-      id: 1,
-      firstName: 'Naruto',
-      lastName: 'Uzumaki',
-      email: 'naru@mail.com',
-      password: '123456',
-      role: 'ADMIN',
-    },
-    {
-      id: 2,
-      firstName: 'Sasuke',
-      lastName: 'Uchiha',
-      email: 'sasu@mail.com',
-      password: '123456',
-      role: 'USER',
-    },
-  ];
+export class AlumnosComponent implements OnInit {
+  [x: string]: any;
+  
+  constructor(private alumnosService: AlumnosService) { }
+
+  roles: any;
+  totalItems: number = 0;
+  pageSize: number = 5;
+  displayedColumns: string[] = ['id', 'fullName', 'lastname', 'email', 'password', 'role'];
+  dataSource: Alumno[] = [];
+
+  ngOnInit(): void {
+    this.loadAlumnos();
+    this.loadRoles();
+  }
+
+  loadRoles(): void {
+    this['AlumnosService'].getRoles().subscribe((roles: any) => {
+      this.roles = roles;
+    });
+  }
+
+  loadAlumnos(): void {
+   this['AlumnosService'].getAlumnos().subscribe((alumnos: Alumno[]) => {
+      this.dataSource = alumnos;
+    });
+  }
+
+  onPage(event: PageEvent): void {
+    // Implementar la lógica de paginación si es necesario
+  }
 
   onUserSubmitted(ev: Alumno): void {
-    // this.dataSource.push(ev);
-    this.dataSource = [...this.dataSource, { ...ev, id: new Date().getTime() }];
+    // Aquí puedes llamar al método correspondiente del servicio para crear un nuevo alumno
+    // y luego actualizar la lista de alumnos
+  }
+
+  onDeleteUser(id: number): void {
+    // Aquí puedes llamar al método correspondiente del servicio para eliminar un alumno
+    // y luego actualizar la lista de alumnos
   }
 }
