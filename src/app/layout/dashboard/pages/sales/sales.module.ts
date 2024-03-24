@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ProductsService } from '../products/products.service';
 import { SaleDialogComponent } from './components/sale-dialog/sale-dialog.component';
 import { SalesRoutingModule } from './sales-routing.module';
 import { SalesComponent } from './sales.component';
@@ -18,6 +17,6 @@ import { salesFeature } from './store/sales.reducer';
     StoreModule.forFeature(salesFeature),
     EffectsModule.forFeature([SalesEffects]),
   ],
-  providers: [ProductsService],
+  providers: [],
 })
 export class SalesModule {}

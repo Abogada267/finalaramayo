@@ -25,8 +25,8 @@ export class AlumnosDetailComponent implements OnInit {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam !== null) {
       const id = +idParam;
-      this.alumnosService.getAlumno(id)
-        .subscribe(alumno => this.alumno = alumno);
+      this.alumnosService['getAlumno'](id)
+        .subscribe((alumno: Alumno | undefined) => this.alumno = alumno);
     } else {
       console.error('ID parameter is null');
     }
@@ -39,7 +39,7 @@ export class AlumnosDetailComponent implements OnInit {
 
   save(): void {
     if (this.alumno) {
-      this.alumnosService.updateAlumno(this.alumno)
+      this.alumnosService['updateAlumno'](this.alumno)
         .subscribe(() => this.goBack());
     }
   }

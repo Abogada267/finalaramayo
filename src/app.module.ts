@@ -1,8 +1,10 @@
 import { registerLocaleData } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import es from '@angular/common/locales/es';
 import esAR from '@angular/common/locales/es-AR';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatCardContent, MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,8 +25,11 @@ registerLocaleData(esAR);
     BrowserAnimationsModule,
     DashboardModule,
     MatProgressSpinnerModule,
-    MatCard,
     MatCardModule,
+    MatCardContent,
+    MatNativeDateModule,
+    HttpClientModule,
+   
     
     
   ],

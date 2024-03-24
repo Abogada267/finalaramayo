@@ -34,8 +34,9 @@ export class UsersService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.httpClient.get<User[]>(`${environment.apiURL}/users`).pipe(
-      catchError(() => {
+    return this.httpClient
+      .get<User[]>(`${environment.apiURL}/users`)
+      .pipe(catchError(() => {
         this.alerts.showError('Error al cargar los usuarios');
         return of([]);
       })

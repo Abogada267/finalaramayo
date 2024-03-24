@@ -9,6 +9,7 @@ import { UsersService } from '../../users.service';
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent {
+
   constructor(
     private route: ActivatedRoute,
     private usersService: UsersService,

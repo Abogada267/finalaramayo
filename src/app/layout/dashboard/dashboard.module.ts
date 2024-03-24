@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,8 @@ import { PipesModule } from '../dashboard/pages/pipes/pipes.module';
 import { RxjsExampleModule } from '../dashboard/pages/rxjs-example/rxjs-example.module';
 import { RxjsIntroduccionModule } from '../dashboard/pages/rxjs-introduccion/rxjs-introduccion.module';
 import { UsersModule } from '../dashboard/pages/users/users.module';
+import { AlumnosComponent } from './pages/alumnos/alumnos.component';
+import { CursosComponent } from './pages/cursos/cursos.component';
 import { UserDetailComponent } from './pages/users/pages/user-detail/user-detail.component';
 import { UsersComponent } from './pages/users/users.component';
 
@@ -38,10 +40,9 @@ import { UsersComponent } from './pages/users/users.component';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    MatCard,
     MatDatepickerModule,
     FormsModule,
-    RouterModule.forChild([
+     RouterModule.forChild([
       {
         path: 'home',
         component: HomeComponent,
@@ -49,20 +50,20 @@ import { UsersComponent } from './pages/users/users.component';
       {
         path: 'users',
         component: UsersComponent,
+       },
+      {
+        path: 'alumnos',
+        component: AlumnosComponent,
       },
       {
         path: 'cursos',
-        loadChildren: () =>
-          import('../dashboard/pages/cursos/cursos.module').then(m => m.CursosModule),
+        component: CursosComponent,
       },
       {
         path: 'user/:id',
         component: UserDetailComponent,
       },
-      {
-        path: '**',
-        redirectTo: 'home', 
-      }
+      
     ])
   ],
   exports: [DashboardComponent],

@@ -1,5 +1,4 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { Product } from '../../products/models';
 import { User } from '../../users/models/index';
 import { Sale } from '../models';
 import { SalesActions } from './sales.actions';
@@ -9,7 +8,7 @@ export const salesFeatureKey = 'sales';
 export interface State {
   sales: Sale[];
   buyers: User[];
-  products: Product[];
+  products: User[];
   loading: boolean;
   loadingBuyers: boolean;
   error: unknown;
@@ -52,7 +51,7 @@ export const reducer = createReducer(
   }),
   on(SalesActions.loadProductsSuccess, (state, action) => ({
     ...state,
-    products: action.data,
+    home: action.data,
   }))
 );
 

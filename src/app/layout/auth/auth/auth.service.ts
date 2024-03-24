@@ -1,10 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { Observable, catchError, map, of, tap } from 'rxjs';
-import { AuthActions } from '../../../../../src/app/core/store/auth/actions';
-import { environment } from '../../../../environments/environment';
+import { delay, map, of } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { AlertsService } from '../../../core/services/alerts.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { User } from '../../dashboard/pages/users/models/index';
@@ -13,7 +10,6 @@ interface LoginData {
   email: null | string;
   password: null | string;
 }
-
 const MOCK_USER = {
   id: 48,
   email: 'test@mail.com',
@@ -22,65 +18,61 @@ const MOCK_USER = {
   password: '123456',
   role: 'ADMIN',
 };
-
-@Injectable({ providedIn: 'root' })
+  
+@Injectable({ providedIn: 'root'})
 export class AuthService {
-  authUser(_authUser: any) {
-    throw new Error('Method not implemented.');
-  }
-  isLoggedIn: any;
+  authUser: User | null = null;
+  
   constructor(
     private router: Router,
     private alertsService: AlertsService,
-    private loadingService: LoadingService,
-    private httpClient: HttpClient,
-    private store: Store
-  ) {}
-
+    private loadingService: LoadingService
+   
+  ) { }
   
-  login(data: LoginData): Observable<User[]> {
-    return this.httpClient
-      .get<User[]>(
-        `${environment.apiURL}/users?email=${data.email}&password=${data.password}`
-      )
-      .pipe(
-        tap((response) => {
-          if (!!response[0]) {
-            this.setAuthUser(response[0]);
-            this.router.navigate(['dashboard', 'home']);
-          } else {
-            this.alertsService.showError('Email o password invalidos');
-          }
-        })
-      );
+  private setAuthUser(mockUser: User): void {
+    this.authUser = mockUser;
+    localStorage.setItem(
+      'token',
+      'ldsjdm348342kjewkjksfdmsakjdsad'
+    );
   }
+ login(data: LoginData): void {
+const MOCK_USER = {
+  id: 48,
+  email: 'test@mail.com',
+  firstName: 'FAKENAME',
+  lastName: 'FAKELASTNAME',
+  password: '123456',
+  role: 'ADMIN',
+};
+   
+  
+  if(
+    data.email === MOCK_USER.email &&
+   data.password===MOCK_USER.password
+  ){
+    this.setAuthUser = (MOCK_USER);
+    this.router.navigate(['dashboard', 'home']);
+  } else {
+    this.alertsService.showError('Email o password invalidos');
+    }
+      }
 
   logout(): void {
-    this.store.dispatch(AuthActions.logout());
+    this.authUser = null;
     this.router.navigate(['auth', 'login']);
     localStorage.removeItem('token');
   }
 
   verifyToken() {
-    return this.httpClient
-      .get<User[]>(
-        `${environment.apiURL}/users?token=${localStorage.getItem('token')}`
-      )
-      .pipe(
-        map((response) => {
-          if (response.length) {
-            this.setAuthUser(response[0]);
-            return true;
-          } else {
-            this.store.dispatch(AuthActions.logout());
-            localStorage.removeItem('token');
-            return false;
-          }
-        }),
-        catchError(() => of(false))
-      );
+  this.loadingService.setIsLoading(true);
+    return of(localStorage.getItem('token')).pipe(delay(1000),
+      map((response) => !!response),
+      tap(() => {
+        this.setAuthUser(MOCK_USER);
+      }),
+    finalize(() => this.loadingService.setIsLoading(false))
+  )
   }
-  setAuthUser(arg0: User) {
-    throw new Error('Method not implemented.');
   }
-}

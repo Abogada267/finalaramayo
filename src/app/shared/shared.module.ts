@@ -42,6 +42,7 @@ import { ValidationErrorsPipe } from './validation-errors.pipe';
     ValidationErrorsPipe,
     MatPaginatorModule,
     ResaltadoDirective2,
+    MatCardModule,
     
     
   ],

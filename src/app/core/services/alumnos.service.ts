@@ -1,98 +1,77 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { MessageService } from '../../core/services/massage.service';
-import { Alumno } from '../../layout/dashboard/pages/alumnos/alumno';
+import { catchError, delay, mergeMap } from 'rxjs/operators';
+import { Alumno } from '../../../app/layout/dashboard/pages/alumnos/alumno';
+import { environment } from '../../../environments/environment';
+import { Pagination } from '../models/pagination';
+import { AlertsService } from './alerts.service';
 
+const ROLES_DB: string[] = ['ADMIN', 'USER'];
+
+@Injectable({
+  providedIn: 'root' 
+})
 export class AlumnosService {
-  private alumnosUrl = AlumnosService.AlumnosUrl; 
+  [x: string]: any;
+  constructor(private alerts: AlertsService,
+    private httpClient: HttpClient) {}
 
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService
-  ) { }
-
-  static AlumnosUrl: any;
-
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
-  getAlumnos(): Observable<Alumno[]> {
-    return this.http.get<Alumno[]>(this.alumnosUrl)
-      .pipe(
-        tap(_ => this.log('fetched alumnos')),
-        catchError(this.handleError<Alumno[]>('getAlumnos', []))
-      );
-  }
-
-  getAlumnoNo404<Data>(id: number): Observable<Alumno> {
-    const url = `${this.alumnosUrl}/?id=${id}`;
-    return this.http.get<Alumno[]>(url)
-      .pipe(
-        map(alumnos => alumnos[0]), 
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`;
-          this.log(`${outcome} alumno id=${id}`);
-        }),
-        catchError(this.handleError<Alumno>(`getAlumno id=${id}`))
-      );
-  }
-
-  getAlumno(id: number): Observable<Alumno> {
-    const url = `${this.alumnosUrl}/${id}`;
-    return this.http.get<Alumno>(url).pipe(
-      tap(_ => this.log(`fetched alumno id=${id}`)),
-      catchError(this.handleError<Alumno>(`getAlumno id=${id}`))
-    );
-  }
-
-  searchAlumnos(term: string): Observable<Alumno[]> {
-    if (!term.trim()) {
-      return of([]);
+  generateString(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return this.http.get<Alumno[]>(`${this.alumnosUrl}/?name=${term}`).pipe(
-      tap(x => x.length ?
-         this.log(`found alumnos matching "${term}"`) :
-         this.log(`no alumnos matching "${term}"`)),
-      catchError(this.handleError<Alumno[]>('searchAlumnos', []))
+    return result;
+  }
+
+   getAlumnosById(id: number | string): Observable<Alumno | undefined> {
+     return this.httpClient
+       .get<Alumno>(`${environment
+      .apiURL}/alumno/${id}`);
+  }
+
+  getRoles(): Observable<string[]> {
+    return of(ROLES_DB).pipe(delay(1000));
+  }
+
+
+    getAlumnos(): Observable<Alumno[]> {
+      return this.httpClient
+      .get<Alumno[]>(`${environment.apiURL}/alumnos`)
+      .pipe(catchError(() => {
+        this.alerts.showError('Error al cargar los usuarios');
+        return of([]);
+      })
+    );
+  }
+  
+  paginate(page: number, perPage = 5): Observable<Pagination<Alumno>> {
+    return this.httpClient.get<Pagination<Alumno>>(
+      `${environment.apiURL}/alumnos?_page=${page}&_per_page=${perPage}`
+    );
+
+  }
+
+  createUser(payload: Alumno): Observable<Alumno> {
+    return this.httpClient.post<Alumno>(`${environment.apiURL}/alumnos`,payload).pipe(
+    catchError(() => {
+    this.alerts.showError('Error al cargar los usuarios');
+    throw new Error('Error al crear el usuario'); 
+               })
+       );
+  }
+
+  deleteUser(alumnoID: number): Observable<Alumno[]> {
+    return this.httpClient
+      .delete<Alumno[]>(`${environment.apiURL}/alumnos/${alumnoID}`)
+      .pipe(mergeMap(() => this.getAlumnos())
     );
   }
 
-  addAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.http.post<Alumno>(this.alumnosUrl, alumno, this.httpOptions).pipe(
-      tap((newAlumno: Alumno) => this.log(`added alumno w/ id=${newAlumno.id}`)),
-      catchError(this.handleError<Alumno>('addAlumno'))
-    );
-  }
-
-  deleteAlumno(alumno: Alumno | number): Observable<Alumno> {
-    const id = typeof alumno === 'number' ? alumno : alumno.id;
-    const url = `${this.alumnosUrl}/${id}`;
-
-    return this.http.delete<Alumno>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted alumno id=${id}`)),
-      catchError(this.handleError<Alumno>('deleteAlumno'))
-    );
-  }
-
-  updateAlumno(alumno: Alumno): Observable<any> {
-    return this.http.put(this.alumnosUrl, alumno, this.httpOptions).pipe(
-      tap(_ => this.log(`updated alumno id=${alumno.id}`)),
-      catchError(this.handleError<any>('updateAlumno'))
-    );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      this.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
-
-  private log(message: string) {
-    this.messageService.add(`AlumnosService: ${message}`);
+  getAllBuyers(): Observable<Alumno[]> {
+    return this.httpClient.get<Alumno[]>(`${environment.apiURL}/alumnos?role=BUYER`);
   }
 }
-

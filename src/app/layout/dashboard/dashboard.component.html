@@ -5,15 +5,14 @@
 <mat-drawer #drawer class="dashboard-sidebar" mode="side">
 <mat-nav-list>
 <a #homeLink="routerLinkActive" routerLinkActive="active" [activated]="homeLink.isActive" routerLink="home"
-                mat-list-item>Inicio</a>
-
-            <a #usersLink="routerLinkActive" routerLinkActive [activated]="usersLink.isActive" routerLink="users"
-                mat-list-item>Usuarios</a>
-                <a #cursosLink="routerLinkActive" routerLinkActive [activated]="cursosLink.isActive" routerLink="cursos"
-                    mat-list-item>Cursos</a>
-            <a #productsLink="routerLinkActive" routerLinkActive [activated]="productsLink.isActive"
-                routerLink="products" mat-list-item>Productos</a>
-            <a (click)="logout()" mat-list-item>Cerrar sesion</a>
+    mat-list-item>Inicio</a>
+<a #usersLink="routerLinkActive" routerLinkActive [activated]="usersLink.isActive" routerLink="users"
+    mat-list-item>Usuarios</a>
+<a #cursosLink="routerLinkActive" routerLinkActive [activated]="cursosLink.isActive" routerLink="cursos"
+    mat-list-item>Cursos</a>
+<a #alumnosLink="routerLinkActive" routerLinkActive [activated]="alumnosLink.isActive" routerLink="alumnos"
+    mat-list-item>Alumnos</a>
+<a (click)="logout()" mat-list-item>Cerrar sesión</a>
         </mat-nav-list>
     </mat-drawer>
     <!-- SIDEBAR -->
@@ -33,7 +32,7 @@ mat-icon-button
 class="example-icon"
 aria-label="Example icon-button with menu icon"> <mat-icon>menu</mat-icon>
             </button>
-            <span>My App</span>
+            <span>Estudio Juridico Malvina Aramayo Capacitaciones en Derecho Penal  Familia Civil </span>
             <span class="example-spacer"></span>
             <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
                 <mat-icon>favorite</mat-icon>

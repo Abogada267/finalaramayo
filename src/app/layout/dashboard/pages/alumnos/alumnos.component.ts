@@ -1,69 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AlumnosService } from '../../../../core/services/alumnos.service';
-import { Alumno } from './alumno';
+import { Component } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
+import { Alumno } from './models/index';
 
 @Component({
   selector: 'app-alumnos',
   templateUrl: './alumnos.component.html',
-  styleUrls: ['./alumnos.component.scss'], 
+  styleUrls: ['./alumnos.component.scss']
 })
-export class AlumnosComponent implements OnInit {
+export class AlumnosComponent  {
+roles: any;
+onalumnoSubmitted: any;
+alumno: any;
+onDeleteUser(_t58: any) {
+throw new Error('Method not implemented.');
+}
+totalItems: unknown;
+pageSize: unknown;
+onPage($event: PageEvent) {
+throw new Error('Method not implemented.');
+}
+  displayedColumns: string[] = ['id', 'fullName','lastname', 'email', 'password','role'];
+  dataSource: Alumno[] = [
+    {
+      id: 1,
+      firstName: 'Naruto',
+      lastName: 'Uzumaki',
+      email: 'naru@mail.com',
+      password: '123456',
+      role: 'ADMIN',
+    },
+    {
+      id: 2,
+      firstName: 'Sasuke',
+      lastName: 'Uchiha',
+      email: 'sasu@mail.com',
+      password: '123456',
+      role: 'USER',
+    },
+  ];
 
-  alumnos: Alumno[] = [];
-  selectedAlumno: Alumno = { id: 1, name: 'Angelina', edad: 26 };
-  
-  constructor(private alumnosService: AlumnosService) {}
-
-  ngOnInit(): void {
-    this.getAlumnos(); 
-  }
-
-  getAlumnos(): void {
-    this.alumnosService.getAlumnos()
-      .subscribe(
-        (alumnos: Alumno[]) => {
-          this.alumnos = alumnos;
-        },
-        (error: any) => {
-          console.error('Error fetching alumnos:', error);
-        }
-      );
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { 
-      return; 
-    }
-    this.alumnosService.addAlumno({ name } as Alumno)
-      .pipe(
-        catchError((error: any) => {
-          console.error('Error adding alumno:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe(
-        (alumno: Alumno) => {
-          this.alumnos.push(alumno);
-        }
-      );
-  }
-
-  deleteAlumno(valorAEliminar: Alumno): void {
-    this.alumnosService.deleteAlumno(valorAEliminar)
-      .subscribe(
-        () => {
-          console.log('Alumno eliminado correctamente');
-          this.alumnos = this.alumnos.filter((alumno: Alumno) => alumno !== valorAEliminar);
-        },
-        (error: any) => {
-          console.error('Error al eliminar alumno:', error);
-        }
-      );
+  onUserSubmitted(ev: Alumno): void {
+    // this.dataSource.push(ev);
+    this.dataSource = [...this.dataSource, { ...ev, id: new Date().getTime() }];
   }
 }
-
-
-

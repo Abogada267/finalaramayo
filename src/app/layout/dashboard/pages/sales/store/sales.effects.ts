@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { UsersService } from '../../../../../core/services/users.service';
-import { ProductsService } from '../../products/products.service';
+import { HomeService } from "../../home/home.service";
 import { SalesService } from '../sales.service';
 import { SalesActions } from './sales.actions';
 
@@ -39,17 +39,7 @@ export class SalesEffects {
     );
   });
 
-  loadProducts$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(SalesActions.loadProducts),
-      concatMap(() => {
-        return this.productsService.getProducts().pipe(
-          map((resp) => SalesActions.loadProductsSuccess({ data: resp })),
-          catchError((error) => of(SalesActions.loadProductsFailure({ error })))
-        );
-      })
-    );
-  });
+  
 
   createSale$ = createEffect(() => {
     return this.actions$.pipe(
@@ -83,6 +73,6 @@ export class SalesEffects {
     private actions$: Actions,
     private salesService: SalesService,
     private usersService: UsersService,
-    private productsService: ProductsService
+    private HomeService: HomeService
   ) {}
 }

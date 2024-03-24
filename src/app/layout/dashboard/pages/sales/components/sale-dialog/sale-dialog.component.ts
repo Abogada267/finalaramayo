@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Product } from '../../../products/models';
 import { User } from '../../../users/models/index';
 import { SalesActions } from '../../store/sales.actions';
 import {
-  selectSalesBuyers,
-  selectSalesProducts,
+  selectSalesBuyers
 } from '../../store/sales.selectors';
 
 @Component({
@@ -18,7 +16,7 @@ import {
 })
 export class SaleDialogComponent {
   buyers$: Observable<User[]>;
-  products$: Observable<Product[]>;
+  
 
   saleForm: FormGroup;
 
@@ -33,9 +31,9 @@ export class SaleDialogComponent {
     });
 
     this.store.dispatch(SalesActions.loadBuyers());
-    this.store.dispatch(SalesActions.loadProducts());
+  
 
-    this.products$ = this.store.select(selectSalesProducts);
+    
     this.buyers$ = this.store.select(selectSalesBuyers);
   }
 

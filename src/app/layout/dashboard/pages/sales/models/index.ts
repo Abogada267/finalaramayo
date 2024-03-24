@@ -1,4 +1,3 @@
-import { Product } from '../../products/models';
 import { User } from '../../users/models/index';
 
 export interface Sale {
@@ -6,7 +5,7 @@ export interface Sale {
   userId: string | number;
   productId: string | number;
   user?: User;
-  product?: Product;
+ 
 }
 
 export interface CreateSaleData {

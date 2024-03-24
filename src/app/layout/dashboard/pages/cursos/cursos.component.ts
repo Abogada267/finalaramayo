@@ -1,30 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CursosService } from '../cursos/cursos.service';
 import { Cursos } from './models/index';
-
 
 @Component({
   selector: 'app-cursos',
   templateUrl: './cursos.component.html',
-  styleUrl: './cursos.component.scss',
+  styleUrls: ['./cursos.component.scss']
 })
-export class CursosComponent {
+export class CursosComponent implements OnInit {
+  cursos: Cursos[] = [];
 
-  displayedColumns: string[] = ['id', 'curseName', 'createAt', 'action'];
-  
-  Cursos: Cursos[] = [];
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private cursosService: CursosService
+  ) {}
 
-  constructor(private CursosService: CursosService) { 
-  this.CursosService.getCursos().subscribe({
-    next: (Cursos: any) => {
-      this.Cursos = Cursos;
+  ngOnInit(): void {
+    this.loadCursos();
+  }
+
+  loadCursos(): void {
+    this.cursosService.getCursos().subscribe({
+      next: (cursos: Cursos[]) => {
+        this.cursos = cursos;
+      },
+      error: (error) => {
+        console.error('Error loading cursos:', error);
+      }
+    });
+  }
+
+  onDelete(id: number): void {
+    if (confirm('¿Está seguro?')) {
+      this.cursosService.deleteCursoById(id).subscribe({
+        next: () => {
+          console.log('Curso deleted successfully.');
+          this.loadCursos(); // Recargar la lista de cursos después de eliminar uno
+        },
+        error: (error) => {
+          console.error('Error deleting curso:', error);
+        }
+      });
     }
-  })
-
   }
-  }
-  
-  
- 
+}
 
 

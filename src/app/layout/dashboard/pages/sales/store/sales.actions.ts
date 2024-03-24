@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Product } from '../../products/models';
+import { Home } from '../../home/home';
 import { User } from '../../users/models/index';
 import { CreateSaleData, Sale } from '../models';
 
@@ -13,7 +13,7 @@ export const SalesActions = createActionGroup({
     'Load Buyers Success': props<{ data: User[] }>(),
     'Load Buyers Failure': props<{ error: unknown }>(),
     'Load Products': emptyProps(),
-    'Load Products Success': props<{ data: Product[] }>(),
+    'Load Products Success': props<{ data: Home[] }>(),
     'Load Products Failure': props<{ error: unknown }>(),
     'Create Sale': props<{ data: CreateSaleData }>(),
     'Create Sale Success': props<{ data: Sale }>(),
