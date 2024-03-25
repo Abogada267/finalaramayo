@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FullNamePipe, UserPipe } from '../../../../shared/full-name.pipe';
+import { FirstNamePipe, UserPipe } from '../../../../shared/full-name.pipe';
 
 @Component({
   selector: 'app-pipes',
@@ -16,8 +16,8 @@ export class PipesComponent {
     lastName: 'Son',
   };
 
-  constructor(private datePipe: DatePipe, private fullName: FullNamePipe) {
+  constructor(private datePipe: DatePipe, private firstName: FirstNamePipe) {
     console.log(this.datePipe.transform(this.today, 'long'));
-    console.log(this.fullName.transform(this.user));
+    console.log(this.firstName.transform(this.user));
   }
 }

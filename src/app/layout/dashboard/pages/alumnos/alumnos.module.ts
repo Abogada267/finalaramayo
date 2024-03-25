@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +27,7 @@ import { AlumnosComponent } from './alumnos.component';
     ReactiveFormsModule,
     AlumnosRoutingModule,
     MatPaginator,
+    FormsModule,
   
   ],
   exports: [AlumnosComponent],

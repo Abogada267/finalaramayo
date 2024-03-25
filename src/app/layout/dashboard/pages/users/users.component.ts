@@ -16,7 +16,7 @@ pageSize: unknown;
 onPage($event: PageEvent) {
 throw new Error('Method not implemented.');
 }
-  displayedColumns: string[] = ['id', 'fullName', 'email', 'role'];
+  displayedColumns: string[] = ['id', 'firstName', 'email', 'role'];
   dataSource: User[] = [
     {
       id: 1,

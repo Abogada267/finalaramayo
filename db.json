@@ -1,7 +1,12 @@
 {
-  "alumnos": [
-    { "id": 1, "name": "John Doe", "age": 25 },
-    { "id": 2, "name": "Jane Smith", "age": 30 },
-    { "id": 3, "name": "Alice Johnson", "age": 28 }
+  "alumno": [
+    { "id": 1, 
+    "firstname": "John Doe", 
+    "lastName": "nadi",
+      "email": "mamm@gmail.com",
+      "password": "n",
+      "role": "f"
+   }
+   
   ]
 }

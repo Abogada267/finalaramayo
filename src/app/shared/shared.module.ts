@@ -12,7 +12,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ResaltadoDirective } from '../shared/resaltado.directive';
-import { FullNamePipe } from './full-name.pipe';
 import { RepetirDirective } from './repetir.directive';
 import { ResaltadoDirective2 } from './resaltado2.directive';
 import { ValidationErrorsPipe } from './validation-errors.pipe';
@@ -21,14 +20,12 @@ import { ValidationErrorsPipe } from './validation-errors.pipe';
   declarations: [
     RepetirDirective,
     ResaltadoDirective,
-    FullNamePipe,
     ResaltadoDirective2,
     ValidationErrorsPipe,
   ],
   imports: [CommonModule],
   exports: [
-    FullNamePipe,
-    ResaltadoDirective,
+      ResaltadoDirective,
      MatTableModule,
     MatButtonModule,
     MatIconModule,

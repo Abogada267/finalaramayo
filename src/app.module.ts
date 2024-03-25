@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import es from '@angular/common/locales/es';
 import esAR from '@angular/common/locales/es-AR';
 import { LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatCardContent, MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -29,6 +30,7 @@ registerLocaleData(esAR);
     MatCardContent,
     MatNativeDateModule,
     HttpClientModule,
+    FormsModule,
    
     
     

@@ -33,15 +33,16 @@ export class AlumnosService {
 
   // Método para obtener un alumno por su ID
   getAlumnosById(id: number | string): Observable<Alumno | undefined> {
-    return this.httpClient.get<Alumno>(`${environment.apiURL}/alumno/${id}`)
-      .pipe(
-        catchError(() => {
-          // Manejo de errores
-          return of(undefined);
-        })
-      );
-  }
+  return this.httpClient.get<Alumno>(`${environment.apiURL}/alumno/${id}`)
+    .pipe(
+      catchError(() => {
+        // Manejo de errores
+        return of(undefined);
+      })
+    );
+}
 
+   
   // Método para obtener roles de usuario
   getRoles(): Observable<string[]> {
     return of(ROLES_DB).pipe(delay(1000));
@@ -67,17 +68,10 @@ export class AlumnosService {
   }
 
   // Método para crear un nuevo alumno
-  createUser(payload: Alumno): Observable<Alumno> {
-    return this.httpClient.post<Alumno>(`${environment.apiURL}/alumnos`, payload)
-      .pipe(
-        catchError(() => {
-          // Manejo de errores
-          this.alerts.showError('Error al cargar los usuarios');
-          throw new Error('Error al crear el usuario');
-        })
-      );
-  }
-
+  createAlumno(alumno: Alumno): Observable<Alumno> {
+    return this.httpClient.post<Alumno>(`${environment.apiURL}/alumnos`, alumno);
+} 
+     
   // Método para eliminar un alumno
   deleteUser(alumnoID: number): Observable<Alumno[]> {
     return this.httpClient.delete<Alumno[]>(`${environment.apiURL}/alumnos/${alumnoID}`)

@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+
 import { AlumnosService } from '../../../../core/services/alumnos.service';
 import { Alumno } from './models/index';
 
 @Component({
   selector: 'app-alumnos',
-  templateUrl: './alumnos.component.html',
+  templateUrl:'./alumnos.component.html',
   styleUrls: ['./alumnos.component.scss']
 })
 export class AlumnosComponent implements OnInit {
-  [x: string]: any;
-  
-  constructor(private alumnosService: AlumnosService) { }
-
   roles: any;
   totalItems: number = 0;
   pageSize: number = 5;
-  displayedColumns: string[] = ['id', 'fullName', 'lastname', 'email', 'password', 'role'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastname', 'email', 'password', 'role'];
   dataSource: Alumno[] = [];
+
+  constructor(private alumnosService: AlumnosService) { }
 
   ngOnInit(): void {
     this.loadAlumnos();
@@ -25,28 +24,33 @@ export class AlumnosComponent implements OnInit {
   }
 
   loadRoles(): void {
-    this['AlumnosService'].getRoles().subscribe((roles: any) => {
+    this.alumnosService.getRoles().subscribe((roles: any) => {
       this.roles = roles;
     });
   }
 
-  loadAlumnos(): void {
-   this['AlumnosService'].getAlumnos().subscribe((alumnos: Alumno[]) => {
-      this.dataSource = alumnos;
+  loadAlumnos(pageNumber: number = 0): void {
+    const offset = pageNumber * this.pageSize;
+    this.alumnosService.paginate(pageNumber, this.pageSize).subscribe((paginationData: any) => {
+      this.dataSource = paginationData.items;
+      this.totalItems = paginationData.totalCount;
     });
   }
 
   onPage(event: PageEvent): void {
-    // Implementar la lógica de paginación si es necesario
+    const pageNumber = event.pageIndex;
+    this.loadAlumnos(pageNumber);
   }
 
-  onUserSubmitted(ev: Alumno): void {
-    // Aquí puedes llamar al método correspondiente del servicio para crear un nuevo alumno
-    // y luego actualizar la lista de alumnos
+  onSubmitAlumno(formValue: any): void {
+    this.alumnosService.createAlumno(formValue).subscribe((alumno: Alumno) => {
+      this.dataSource.push(alumno); // Agrega el nuevo alumno a la lista actual
+      // O carga nuevamente los datos de los alumnos desde el servidor si no estás usando paginación
+    });
   }
 
-  onDeleteUser(id: number): void {
-    // Aquí puedes llamar al método correspondiente del servicio para eliminar un alumno
-    // y luego actualizar la lista de alumnos
+  onDeleteAlumno(id: number): void {
+    
   }
 }
+

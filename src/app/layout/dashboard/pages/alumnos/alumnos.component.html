@@ -1,6 +1,5 @@
 <div class="mb-3">
-  <!-- Eliminando la línea problemática -->
-  <!-- <app-alumnos-form (alumnoSubmitted)="['onAlumnoSubmitted']($event)"></app-alumnos-form> -->
+  
 </div>
 
 <pre>{{ roles | json }}</pre>
@@ -14,8 +13,8 @@
     <td mat-cell *matCellDef="let alumno">{{ alumno.id }}</td>
   </ng-container>
 
-  <!-- FullName Column -->
-  <ng-container matColumnDef="fullName">
+ 
+  <ng-container matColumnDef="firstName">
     <!-- HEADER -->
     <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
     <!-- CELDA -->
@@ -24,13 +23,13 @@
     </td>
   </ng-container>
 
-  <!-- LastName Column -->
-  <ng-container matColumnDef="lastName">
+ 
+  <ng-container matColumnDef="lastname">
     <!-- HEADER -->
     <th mat-header-cell *matHeaderCellDef>Apellido</th>
     <!-- CELDA -->
     <td mat-cell *matCellDef="let alumno">
-      {{ alumno.lastName }}
+      {{ alumno.lastname }}
     </td>
   </ng-container>
 
@@ -63,15 +62,22 @@
       <button [routerLink]="alumno.id" color="accent" mat-icon-button>
         <mat-icon>visibility</mat-icon>
       </button>
-      <button (click)="onDeleteAlumno(alumno)" mat-icon-button color="warn">
-        <mat-icon>delete</mat-icon>
-      </button>
+      
+      
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<form (ngSubmit)="onSubmitAlumno(form.value)" #form= "ngForm">
+  <input type="text" name="firstName" ngModel placeholder="Nombre">
+  <input type="text" name="lastName" ngModel placeholder="Apellido">
+  <input type="email" name="email" ngModel placeholder="Correo electrónico">
+  <input type="password" name="password" ngModel placeholder="Contraseña">
+  <!-- Otros campos del formulario según tus necesidades -->
+  <button type="submit">Guardar</button>
+</form>
 
 <mat-paginator (page)="onPage($event)" [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"
   aria-label="Select page">

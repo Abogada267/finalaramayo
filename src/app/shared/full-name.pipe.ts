@@ -6,9 +6,9 @@ export interface UserPipe {
 }
 
 @Pipe({
-  name: 'fullName',
+  name: 'firstName',
 })
-export class FullNamePipe implements PipeTransform {
+export class FirstNamePipe implements PipeTransform {
   transform(
     value: UserPipe,
     mode?: 'uppercase' | 'lowercase',
