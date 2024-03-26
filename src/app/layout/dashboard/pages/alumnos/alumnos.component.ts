@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { AlumnosService } from '../../../../core/services/alumnos.service';
-import { Alumno } from './models/index';
+import { Alumno } from '../alumnos/models';
+
 
 @Component({
   selector: 'app-alumnos',

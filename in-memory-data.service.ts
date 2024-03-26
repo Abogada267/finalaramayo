@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Alumno } from './src/app/layout/dashboard/pages/alumnos/alumno';
+import { Alumno } from '../finalaramayo/src/app/layout/dashboard/pages/alumnos/models';
 
 
 

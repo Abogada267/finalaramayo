@@ -5,25 +5,49 @@ import { AuthService } from '../../auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'] ,
+  styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent {
   loginForm: FormGroup;
-  revealPassword = false;
+  loading = false;
+  error = '';
 
-  constructor(private fb: FormBuilder, private AuthService: AuthService) {
-    this.loginForm = this.fb.group({
-      email: this.fb.control('', [Validators.required, Validators.email]),
-      password: this.fb.control('', [Validators.required]),
+  constructor(
+    private formBuilder: FormBuilder,
+    private AuthService: AuthService
+  ) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
     });
   }
 
   onSubmit(): void {
+  
+    this.loginForm.markAllAsTouched();
+
+  
     if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-    } else {
-      this.AuthService.login(this.loginForm.value).subscribe();
+      return;
     }
+
+ 
+    this.loading = true;
+    this.AuthService.login(this.loginForm.value).subscribe(
+      (      response: any) => {
+       
+        console.log('Login successful:', response);
+        this.loading = false;
+       
+      },
+      (      error: any) => {
+        
+        console.error('Login error:', error);
+        this.loading = false;
+        this.error = 'Error al iniciar sesión. Por favor, verifique sus credenciales.';
+      }
+    );
   }
 }
+
+

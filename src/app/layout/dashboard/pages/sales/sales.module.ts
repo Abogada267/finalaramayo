@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
+import { MatCard } from '@angular/material/card';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SaleDialogComponent } from './components/sale-dialog/sale-dialog.component';
@@ -14,9 +15,13 @@ import { salesFeature } from './store/sales.reducer';
   imports: [
     CommonModule,
     SalesRoutingModule,
+    MatCard,
     StoreModule.forFeature(salesFeature),
     EffectsModule.forFeature([SalesEffects]),
   ],
   providers: [],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+]
 })
 export class SalesModule {}

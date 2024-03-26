@@ -2,18 +2,22 @@ import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import es from '@angular/common/locales/es';
 import esAR from '@angular/common/locales/es-AR';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardContent, MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatColumnDef, MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MY_USER_TOKEN } from '../src/app/core/injection-tokens';
 import { DashboardModule } from '../src/app/layout/dashboard/dashboard.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 
 registerLocaleData(es);
 registerLocaleData(esAR);
@@ -26,15 +30,22 @@ registerLocaleData(esAR);
     BrowserAnimationsModule,
     DashboardModule,
     MatProgressSpinnerModule,
-    MatCardModule,
-    MatCardContent,
+     MatCardContent,
     MatNativeDateModule,
     HttpClientModule,
     FormsModule,
+    MatColumnDef,
+    MatCardModule,
+    MatButtonModule,
+    MatTableModule,
+    MatCardModule,
+    MatColumnDef,
    
     
-    
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+],
    providers: [
     {
       provide: LOCALE_ID,
@@ -54,6 +65,7 @@ registerLocaleData(esAR);
       provide: 'API_URL',
       useValue: 'http://localhost:5000/',
     },
+    provideAnimationsAsync(),
   ],
 
 

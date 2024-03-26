@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -44,6 +44,8 @@ import { UsersComponent } from './pages/users/users.component';
     MatDatepickerModule,
     FormsModule,
     AlumnoModule,
+    MatCard,
+  RouterModule,
      RouterModule.forChild([
       {
         path: 'home',
@@ -68,6 +70,9 @@ import { UsersComponent } from './pages/users/users.component';
       
     ])
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+],
   exports: [DashboardComponent],
 })
 export class DashboardModule {}

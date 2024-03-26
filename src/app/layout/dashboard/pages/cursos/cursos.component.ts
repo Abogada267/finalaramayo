@@ -11,6 +11,7 @@ import { Cursos } from './models/index';
 })
 export class CursosComponent implements OnInit {
   cursos: Cursos[] = [];
+  displayedColumns: string[] = ['id', 'courseName', 'createAt', 'actions'];  
 
   constructor(
     private router: Router,
@@ -19,7 +20,7 @@ export class CursosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadCursos();
+    this.loadCursos(); 
   }
 
   loadCursos(): void {
@@ -28,24 +29,26 @@ export class CursosComponent implements OnInit {
         this.cursos = cursos;
       },
       error: (error) => {
-        console.error('Error loading cursos:', error);
+        console.error('Error loading cursos:', error); 
       }
     });
   }
 
   onDelete(id: number): void {
-    if (confirm('¿Está seguro?')) {
+    if (confirm('¿Está seguro?')) { 
       this.cursosService.deleteCursoById(id).subscribe({
         next: () => {
-          console.log('Curso deleted successfully.');
-          this.loadCursos(); // Recargar la lista de cursos después de eliminar uno
+          console.log('Curso deleted successfully.'); 
+          this.loadCursos(); 
         },
         error: (error) => {
-          console.error('Error deleting curso:', error);
+          console.error('Error deleting curso:', error); 
         }
       });
     }
   }
 }
+
+
 
 

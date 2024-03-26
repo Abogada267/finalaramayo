@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatTable } from '@angular/material/table';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { MatColumnDef, MatTable, MatTableModule } from '@angular/material/table';
 import { SharedModule } from '../../../../shared/shared.module';
 import { CursosRoutingModule } from '../cursos/cursos-routing.module';
 import { CursosComponent } from '../cursos/cursos.component';
@@ -15,8 +15,13 @@ import { CursosService } from '../cursos/cursos.service';
     CommonModule,
     CursosRoutingModule,
     SharedModule,
-    MatTable
+    MatTable,
+    MatTableModule,
+    MatColumnDef,
   ],
-  providers: [CursosService]
+  providers: [CursosService],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+],
 })
 export class CursosModule { }

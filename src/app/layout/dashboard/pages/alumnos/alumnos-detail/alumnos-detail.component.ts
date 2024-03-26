@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlumnosService } from '../../../../../core/services/alumnos.service';
-import { Alumno } from '../alumno';
+import { Alumno } from '../models';
 
 @Component({
   selector: 'app-alumnos-detail',

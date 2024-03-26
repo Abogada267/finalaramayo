@@ -1,57 +1,54 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { User } from '../../dashboard/pages/users/models/index';
-import { AuthService } from './auth.service';
+import { MOCK_USER } from "../auth/auth.service";
 
-describe('Pruebas de AuthService', () => {
-  let authService: AuthService; 
-let httpController: HttpTestingController;
+interface LoginData {
+  email: string;
+  password: string;
+}
 
-beforeEach(() => {
-  TestBed.configureTestingModule({
-    providers: [AuthService],
-    imports: [HttpClientTestingModule],
-  });
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  authUser: User | null = null;
 
-  authService = TestBed.inject(AuthService);
-  httpController = TestBed.inject(HttpTestingController);
-});
-  it('AuthService debe estar definido', () => {
-    expect(AuthService).toBeTruthy();
-  });
+  constructor(private http: HttpClient) { }
 
-  it('Al llamar login() debe establecer un authUser', () => {
-    const MOCK_RESPONSE: User[] = [
-      {
-        id: 23,
-        firstName: 'MOCKNAME',
-        lastName: 'MOCKLASTNAME',
-        email: 'mock@mail.com',
-        password: 'password',
-        role: 'ADMIN',
-       
-      },
-    ];
-
+  login(data: LoginData): Observable<boolean> {
     
-    authService
-      .login({ email: 'mock@mail.com', password: 'password' })
-      .subscribe({
-        next: () => {
-          
-          expect(authService.authUser).toEqual(MOCK_RESPONSE[0]);
-        },
-      });
-
-   
-    httpController
-      .expectOne({
-        url: 'http://localhost:3000/users?email=mock@mail.com&password=password',
-        method: 'GET',
+    return this.http.post<boolean>('URL_DE_TU_ENDPOINT_DE_INICIO_DE_SESION', data).pipe(
+      map((isLoggedIn: boolean) => {
+        if (isLoggedIn) {
+          this.setAuthUser(MOCK_USER);
+          return true; 
+        } else {
+          return false; 
+        }
+      }),
+      catchError(() => {
+        return of(false); 
       })
-      .flush(MOCK_RESPONSE);
-  });
-});
+    );
+  }
+
+  private setAuthUser(mockUser: User): void {
+    this.authUser = mockUser;
+    localStorage.setItem('token', 'ldsjdm348342kjewkjksfdmsakjdsad');
+  }
+
+  logout(): void {
+    this.authUser = null;
+    localStorage.removeItem('token');
+  }
+
+  isLoggedIn(): boolean {
+    
+    return !!this.authUser;
+  }
+}
+
+

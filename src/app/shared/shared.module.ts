@@ -22,6 +22,7 @@ import { ValidationErrorsPipe } from './validation-errors.pipe';
     ResaltadoDirective,
     ResaltadoDirective2,
     ValidationErrorsPipe,
+   
   ],
   imports: [CommonModule],
   exports: [
@@ -40,7 +41,7 @@ import { ValidationErrorsPipe } from './validation-errors.pipe';
     MatPaginatorModule,
     ResaltadoDirective2,
     MatCardModule,
-    
+ 
     
   ],
 })

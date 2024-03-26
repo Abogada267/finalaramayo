@@ -7,6 +7,6 @@
 })
 export class AppComponent {
   title = 'Estudio Juridico Malvina Aramayo';
-isLoading: any;
+
 }
 
